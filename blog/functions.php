@@ -4,7 +4,7 @@
 			extract($data);
 		}
 		
-		$path = $path . '.view.php';
+		$path .= '.view.php';
 		include "views/layout.php";
 		//include "views/{$path}.view.php";	
 	}

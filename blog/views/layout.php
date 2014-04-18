@@ -2,7 +2,7 @@
 <html>
 <head>
 	<title>Blog</title>
-	<style type="text/css">
+	<style>
 		.container { width: 600px; margin: auto;}
 		form ul { padding: 0; }
 		form li { list-style: none;}

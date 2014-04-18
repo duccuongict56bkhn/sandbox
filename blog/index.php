@@ -3,7 +3,7 @@ require 'blog.php';
 use \Blog as Blog;
 
 	// Fetch all the post
-	$posts = Blog\get('posts', $conn, 10);
+	$posts = Blog\get('posts', $conn);
 	//var_dump($posts);
 	// Filter through and display in the view
 

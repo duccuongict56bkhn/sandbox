@@ -1,28 +1,23 @@
-<?php 
+<?php
 
 require '../blog.php';
-use \Blog as Blog;
+$data = array();
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST')
-{
+if ( $_SERVER['REQUEST_METHOD'] === 'POST' ) {
 	$title = $_POST['title'];
 	$body = $_POST['body'];
 
-	// Validation
-	if ( empty($title) || empty($body)) {
-		$status = 'Please fill out both fields';
+	if ( empty($title) || empty($body) ) {
+		$data['status'] = 'Please fill out both inputs.';
+	} else {
+		// then create a new row in the table
+		Blog\query(
+			"INSERT INTO posts(title, body) VALUES(:title, :body)",
+			array('title' => $title, 'body' => $body),
+			$conn);
+
+		$data['status'] = 'Row has successfully been inserted.';
 	}
-} else {
-	// create new row
-	Blog\query(
-		"INSERT INTO posts(title, body) VALUES(:title, :body)", 
-		array('title' => $title, 'body' => $body),
-		$conn
-		);
 }
 
-view('admin/create', array(
-		'status' => $status
-	));
-
-?>
+view('admin/create', $data);

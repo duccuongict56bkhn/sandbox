@@ -25,28 +25,33 @@ function query($query, $bindings, $conn)
 {
 	$stmt = $conn->prepare($query);
 	$stmt->execute($bindings);
-	$result = $stmt->fetchAll();
 
-	return $result ? $result : false;
+	return ($stmt->rowCount() > 0) ? $stmt : false;
+	// $result = $stmt->fetchAll();
+
+	// return $result ? $result : false;
 }
 
 function get($tableName, $conn, $limit = 10) 
 {
 	try {
-		$result = $conn->query("SELECT * FROM $tableName LIMIT $limit");		
+		$result = $conn->query("SELECT * FROM $tableName ORDER BY id DESC LIMIT $limit");
 
-		return ( $result->rowCount() > 0) ? $result : false;
-
-	} catch (Exception $e) {
+		return ( $result->rowCount() > 0 )
+			? $result
+			: false;
+	} catch(Exception $e) {
 		return false;
 	}
 }
 
 function get_by_id($id, $conn)
 {
-	return query('SELECT * FROM posts WHERE id = :id LIMIT 1', 
+	$query = query('SELECT * FROM posts WHERE id = :id LIMIT 1', 
 				  array('id' => $id),
 				  $conn);
+
+	if ( $query ) return $query->fetchAll();
 }
 
  ?>
