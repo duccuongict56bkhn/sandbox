@@ -1,10 +1,9 @@
 <?php 
 require 'core/init.php';
- 
-$members 		= $users->get_users();
-$member_count = count($members);
+$general->logged_out_protect();
+$members 		=$users->get_users();
+$member_count 	= count($members);
 ?>
- 
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,14 +13,20 @@ $member_count = count($members);
 </head>
 <body>	
 	<div id="container">
+		<?php include 'includes/menu.php';?>
 		<h1>Our members</h1>
-		<p>We have a total of <strong><?php echo $member_count; ?></strong> registered users.</p>
+		<p>We have a total of <strong><?php echo $member_count; ?></strong> registered users. </p>
  
 		<?php 
-                #Showing the username and the date of joining, using the date() function.
+ 
 		foreach ($members as $member) {
-			echo '<p>',$member['username'], ' joined: ', date('F j, Y', $member['time']), '</p>';
+			$username = $member['username'];
+			?>
+ 
+			<p><a href="profile.php?username=<?php echo $username; ?>"><?php echo $username?></a> joined: <?php echo date('F j, Y', $member['time']) ?></p>
+			<?php
 		}
+ 
 		?>
 	</div>
 </body>
